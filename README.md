@@ -1,4 +1,4 @@
 jscience
 ========
 
-This is a clone of JScience 4.3.1 from the SVN repo which adds proper OSGification of the library.
+A stripped down fork of JScience's unit library (version 4.3.1) with various bug fixes.

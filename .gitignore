@@ -1,3 +1,6 @@
 /target
 /src/META-INF/MANIFEST.MF
 *.DS_Store
+
+.*
+*.iml
