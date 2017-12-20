@@ -441,7 +441,9 @@ public abstract class UnitFormat extends Format {
                             result = result.divide(d);
                         }
                     } else {
-                        result = result.divide(parseProductUnit(csq, pos));
+                        SubUnit subUnit = new SubUnit(csq.subSequence(pos.getIndex(), csq.length()));
+                        pos.setIndex(pos.getIndex() + subUnit.getParsePositionIncrement());
+                        result = result.divide(parseProductUnit(subUnit.getSubUnit(), new ParsePosition(0)));
                     }
                     break;
                 case PLUS:
