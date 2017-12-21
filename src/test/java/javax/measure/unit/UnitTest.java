@@ -48,6 +48,27 @@ public class UnitTest {
             // Test it again but replace * with ·.  Example: m/kg*h -> m/kg·h
             parsedUnit = Unit.valueOf(divisionUnit.getKey().replace("*", "·")).toString();
             softly.assertThat(parsedUnit).isEqualTo(divisionUnit.getValue());
+
+            // Test it again but replace N with N^2.  Example: N/kg*h -> N^2/kg*h
+            parsedUnit = Unit.valueOf(divisionUnit.getKey().replace("N", "N^2")).toString();
+            softly.assertThat(parsedUnit).isEqualTo(divisionUnit.getValue().replace("N", "N²"));
+
+            // Test it again but replace kg with kg^2.  Example: m/kg*h -> m/kg^2*h
+            parsedUnit = Unit.valueOf(divisionUnit.getKey().replace("kg", "kg^2")).toString();
+            softly.assertThat(parsedUnit).isEqualTo(divisionUnit.getValue().replace("kg", "kg²"));
+
+            // Test it again but replace kg with kg².  Example: m/kg*h -> m/kg²*h
+            parsedUnit = Unit.valueOf(divisionUnit.getKey().replace("kg", "kg²")).toString();
+            softly.assertThat(parsedUnit).isEqualTo(divisionUnit.getValue().replace("kg", "kg²"));
+
+            // Test it again but replace h with h^2.  Example: m/kg*h -> m/kg*h^2
+            parsedUnit = Unit.valueOf(divisionUnit.getKey().replace("h", "h^2")).toString();
+            softly.assertThat(parsedUnit).isEqualTo(divisionUnit.getValue().replace("h", "h²"));
+
+            // Test it again but replace m with m^2.  Example: m/kg*h -> m^2/kg*h
+            parsedUnit = Unit.valueOf(divisionUnit.getKey().replace("m", "m^2")).toString();
+            softly.assertThat(parsedUnit).isEqualTo(divisionUnit.getValue().replace("m", "m²"));
+
         }
 
         softly.assertAll();
