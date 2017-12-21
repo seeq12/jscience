@@ -235,8 +235,6 @@ public abstract class Measure<V, Q extends Quantity> implements Measurable<Q>,
      * @return  a negative integer, zero, or a positive integer as this measure
      *          is less than, equal to, or greater than the specified measurable
      *          quantity.
-      * @return <code>Double.compare(this.doubleValue(getUnit()), 
-      *         that.doubleValue(getUnit()))</code>
      */
     public int compareTo(Measurable<Q> that) {
         return java.lang.Double.compare(doubleValue(getUnit()), that

@@ -116,8 +116,7 @@ public final class Constants {
 
     /**
      * Holds the Planck constant.
-     * @see <a href="http://en.wikipedia.org/wiki/Plank%27s_constant">
-     *      Wikipedia: Plank's constant</a>
+     * @see <a href="http://en.wikipedia.org/wiki/Planck_constant">Wikipedia: Planck constant</a>
      */
     public final static Amount<?> ℎ = Amount.valueOf(
         6.6260693E-34, 0.0000011E-34, SI.JOULE.times(SI.SECOND));
@@ -176,8 +175,8 @@ public final class Constants {
 
     /**
      * Holds the Avogadro constant.
-     * @see <a href="http://en.wikipedia.org/wiki/Avogadro%27s_number">
-     *      Wikipedia: Avogadro's number</a>
+     * @see <a href="https://en.wikipedia.org/wiki/Avogadro_constant">
+     *      Wikipedia: Avogadro constant</a>
      */
     public final static Amount<?> N = Amount.valueOf(
         6.0221415E23, 0.0000010E23, Unit.ONE.divide(SI.MOLE));
