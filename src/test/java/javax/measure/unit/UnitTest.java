@@ -14,7 +14,6 @@ import org.junit.Test;
 public class UnitTest {
     @Test
     public void testBasic() {
-        // Order of operations appears to be messed up when it comes to division
         assertThat(Unit.valueOf("g/m/s")).isEqualTo(SI.GRAM.divide(SI.METER).divide(SI.SECOND));
         assertThat(Unit.valueOf("(g/m)/s")).isEqualTo(SI.GRAM.divide(SI.METER).divide(SI.SECOND));
     }
