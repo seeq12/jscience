@@ -1,6 +1,7 @@
 package javax.measure.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -12,49 +13,30 @@ import org.junit.Test;
 
 public class UnitTest {
     @Test
-    public void test() {
+    public void testBasic() {
         // Order of operations appears to be messed up when it comes to division
         assertThat(Unit.valueOf("g/m/s")).isEqualTo(SI.GRAM.divide(SI.METER).divide(SI.SECOND));
-    }
-
-    @Test
-    public void test2() {
-        // Order of operations appears to be messed up when it comes to division
         assertThat(Unit.valueOf("(g/m)/s")).isEqualTo(SI.GRAM.divide(SI.METER).divide(SI.SECOND));
     }
 
     @Test
-    public void test3() {
-        // Order of operations appears to be messed up when it comes to division
-        assertThat(Unit.valueOf("m/(g/s)")).isEqualTo(SI.METER.times(SI.SECOND).divide(SI.GRAM));
-    }
+    public void testUnmatchedParentheses() {
+        assertThatThrownBy(() -> Unit.valueOf("N/(g/s")).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Unmatched parenthesis").hasMessageContaining("index 6");
 
-    @Test
-    public void test4() {
-        // Order of operations appears to be messed up when it comes to division
-        assertThat(Unit.valueOf("m/g*s")).isEqualTo(SI.METER.times(SI.SECOND).divide(SI.GRAM));
-    }
+        assertThatThrownBy(() -> Unit.valueOf("N/g)/s")).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Unmatched parenthesis").hasMessageContaining("index 3");
 
+        assertThatThrownBy(() -> Unit.valueOf("((N/g)/s")).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Unmatched parenthesis").hasMessageContaining("index 8");
 
-    @Test
-    public void test5() {
-        // Order of operations appears to be messed up when it comes to division
-        assertThat(Unit.valueOf("(m/g)/s")).isEqualTo(SI.METER.divide(SI.GRAM).divide(SI.SECOND));
-    }
-
-    @Test
-    public void test6() {
-        // Order of operations appears to be messed up when it comes to division
-        assertThat(Unit.valueOf("N/(g/(m/s))")).isEqualTo(SI.NEWTON.times(SI.METER).divide(SI.GRAM).divide(SI.SECOND));
-    }
-
-    @Test
-    public void test7() {
-        // Order of operations appears to be messed up when it comes to division
-        assertThat(Unit.valueOf("N/(g)/s")).isEqualTo(SI.NEWTON.divide(SI.GRAM).divide(SI.SECOND));
+        assertThatThrownBy(() -> Unit.valueOf("(N/g))/s")).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Unmatched parenthesis").hasMessageContaining("index 5");
     }
 
 
+    // The jscience library 4.3.1 did not follow the order of operations when division was involved.  These tests
+    // all failed before the fix was made.
     @Test
     public void testParseUnitsWithDivisions() throws Exception {
 

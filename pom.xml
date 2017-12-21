@@ -5,7 +5,7 @@
     <groupId>com.seeq.jscience</groupId>
     <artifactId>jscience</artifactId>
     <packaging>jar</packaging>
-    <version>4.3.2</version>
+    <version>4.3.4</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

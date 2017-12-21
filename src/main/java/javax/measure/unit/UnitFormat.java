@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Stack;
 //@RETROWEAVER import javolution.text.Appendable;
 import javax.measure.converter.AddConverter;
 import javax.measure.converter.MultiplyConverter;
@@ -384,6 +385,7 @@ public abstract class UnitFormat extends Format {
         @Override
         public Unit<? extends Quantity> parseProductUnit(CharSequence csq, ParsePosition pos) 
                 throws ParseException {
+            checkForBalancedParentheses(csq);
             Unit result = Unit.ONE;
             int token = nextToken(csq, pos);
             switch (token) {
@@ -532,8 +534,31 @@ public abstract class UnitFormat extends Format {
                         + " at index " + index + ")", index);
             }
         }
-        
-        private Exponent readExponent (CharSequence csq, ParsePosition pos) {
+
+        private void checkForBalancedParentheses(CharSequence csq) throws ParseException {
+            Stack<Character> stack = new Stack<Character>();
+            int i = 0;
+            for (i = 0; i < csq.length(); i++) {
+                char c = csq.charAt(i);
+                if (c == '(') {
+                    stack.push(c);
+                } else if (c == ')') {
+                    if (stack.isEmpty()) {
+                        throw new ParseException("Unmatched parenthesis in " + csq
+                                + " at index " + i + ")", i);
+                    } else {
+                        stack.pop();
+                    }
+                }
+            }
+
+            if (!stack.isEmpty()) {
+                throw new ParseException("Unmatched parenthesis in " + csq
+                        + " at index " + i + ")", i);
+            }
+        }
+
+        private Exponent readExponent(CharSequence csq, ParsePosition pos) {
             char c = csq.charAt(pos.getIndex());
             if (c == '^') {
                 pos.setIndex(pos.getIndex()+1);
