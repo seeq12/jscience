@@ -384,6 +384,7 @@ public abstract class UnitFormat extends Format {
         @Override
         public Unit<? extends Quantity> parseProductUnit(CharSequence csq, ParsePosition pos) 
                 throws ParseException {
+            checkForBalancedParentheses(csq);
             Unit result = Unit.ONE;
             int token = nextToken(csq, pos);
             switch (token) {
@@ -441,7 +442,18 @@ public abstract class UnitFormat extends Format {
                             result = result.divide(d);
                         }
                     } else {
-                        result = result.divide(parseProductUnit(csq, pos));
+                        // Ensure that order of operations is followed by only providing divide() with the very next
+                        // unit that needs parsing. If the whole unit string was provided to divide(), it would
+                        // recurse which would be like dividing from right to left.
+                        //
+                        // Example: a/b/c.  Coming in, a is the result. SubUnit extracts b and provides only that to
+                        // divide().  The result then becomes a/b. c will get processed on the next time through the
+                        // loop.
+                        SubUnit subUnit = new SubUnit(csq.subSequence(pos.getIndex(), csq.length()));
+                        // Increment the parse position by the size of the SubUnit.
+                        pos.setIndex(pos.getIndex() + subUnit.getParsePositionIncrement());
+                        // Only divide by the SubUnit which we treat as a new string, hence parse position = 0.
+                        result = result.divide(parseProductUnit(subUnit.getSubUnit(), new ParsePosition(0)));
                     }
                     break;
                 case PLUS:
@@ -530,8 +542,31 @@ public abstract class UnitFormat extends Format {
                         + " at index " + index + ")", index);
             }
         }
-        
-        private Exponent readExponent (CharSequence csq, ParsePosition pos) {
+
+        private void checkForBalancedParentheses(CharSequence csq) throws ParseException {
+            int i = 0;
+            int parenCount = 0;
+            for (i = 0; i < csq.length(); i++) {
+                char c = csq.charAt(i);
+                if (c == '(') {
+                    parenCount++;
+                } else if (c == ')') {
+                    if (parenCount == 0) {
+                        throw new ParseException("Unmatched parenthesis in " + csq
+                                + " at index " + i + ")", i);
+                    } else {
+                        parenCount--;
+                    }
+                }
+            }
+
+            if (parenCount != 0) {
+                throw new ParseException("Unmatched parenthesis in " + csq
+                        + " at index " + i + ")", i);
+            }
+        }
+
+        private Exponent readExponent(CharSequence csq, ParsePosition pos) {
             char c = csq.charAt(pos.getIndex());
             if (c == '^') {
                 pos.setIndex(pos.getIndex()+1);
