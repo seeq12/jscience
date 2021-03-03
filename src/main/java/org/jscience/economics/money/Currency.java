@@ -13,6 +13,7 @@ import javolution.util.LocalMap;
 
 import javax.measure.converter.ConversionException;
 import javax.measure.converter.UnitConverter;
+import javax.measure.unit.BaseUnit;
 import javax.measure.unit.DerivedUnit;
 import javax.measure.unit.Unit;
 import javax.measure.unit.UnitFormat;
@@ -153,6 +154,7 @@ public class Currency extends DerivedUnit<Money> {
      * @param  currency the new reference currency.
      * @see    javolution.context.LocalContext
      */
+    @Deprecated
     public static void setReferenceCurrency(Currency currency) {
         REFERENCE.set(currency);
         TO_REFERENCE.clear();
@@ -167,6 +169,7 @@ public class Currency extends DerivedUnit<Money> {
      * @return the reference currency.
      * @see    #setExchangeRate
      */
+    @Deprecated
     public static Currency getReferenceCurrency() {
         return REFERENCE.get();
     }
@@ -184,6 +187,7 @@ public class Currency extends DerivedUnit<Money> {
      *         equals to one unit of this {@link Currency}.
      * @see    #getReferenceCurrency
      */
+    @Deprecated
     public void setExchangeRate(double refAmount) {
         TO_REFERENCE.put(this.getCode(), refAmount);
     }
@@ -196,6 +200,7 @@ public class Currency extends DerivedUnit<Money> {
      * @throws ConversionException if the exchange rate has not be set for
      *         this {@link Currency}.
      */
+    @Deprecated
     public double getExchangeRate() {
         Double refAmount = TO_REFERENCE.get(this.getCode());
         if (refAmount == null) 
@@ -220,7 +225,7 @@ public class Currency extends DerivedUnit<Money> {
     
     @Override
     public Unit<? super Money> getStandardUnit() {
-        return Money.BASE_UNIT;
+        return new BaseUnit<>(this.getCode());
     }
 
     @Override
@@ -249,10 +254,7 @@ public class Currency extends DerivedUnit<Money> {
 
         @Override
         public double convert(double x) throws ConversionException {
-            Double refAmount = TO_REFERENCE.get(_code);
-            if (refAmount == null) 
-                  throw new ConversionException("Exchange rate not set for " + _code);
-            return _invert ? x / refAmount.doubleValue() : x * refAmount.doubleValue();
+            return x;
         }
 
         @Override
