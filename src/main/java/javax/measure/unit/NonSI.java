@@ -91,7 +91,7 @@ public final class NonSI extends SystemOfUnits {
      * A logarithmic unit used to describe a ratio
      * (standard name <code>dB</code>).
      */
-    public static final Unit<Dimensionless> DECIBEL = nonSI(Unit.ONE
+    public static final Unit<Quantity> DECIBEL = nonSI(new BaseUnit<>("dB")
             .transform(new LogConverter(10).inverse().concatenate(
                     new RationalConverter(1, 10))));
 
