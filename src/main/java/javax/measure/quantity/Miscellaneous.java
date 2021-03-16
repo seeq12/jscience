@@ -5,8 +5,8 @@ import javax.measure.unit.BaseUnit;
 import javax.measure.unit.Unit;
 
 /**
- * This interface represents a measure of miscellaneous quantities.
- * In general units of this interface cannot be freely converted. This quantity is dimensionless.
+ * This interface represents a measure of miscellaneous quantities that while 'unitless', should be dimensionally
+ * distinct from each other. In general units of this interface cannot be freely converted.
  *
  * @author  <a href="mailto:ryan.smith@seeq.com">Ryan Smith</a>
  * @version 4.3.4, March 2021
@@ -19,8 +19,10 @@ public interface Miscellaneous extends Quantity {
     public final static Unit<Miscellaneous> ppm = new BaseUnit<>("ppm");
 
     public final static Unit<Miscellaneous> ppb = ppm.divide(1000);
+
     /**
-     * This class represents the Specific Gravity Converter. See https://en.wikipedia.org/wiki/API_gravity.
+     * A converter between Specific Gravity and API gravity, units previously not supported within Jscience
+     * (but used at Seeq). See https://en.wikipedia.org/wiki/API_gravity.
      */
     class SpecificGravityConverter extends UnitConverter {
         boolean _invert;
