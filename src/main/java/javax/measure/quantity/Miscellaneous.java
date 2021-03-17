@@ -38,7 +38,7 @@ public interface Miscellaneous extends Quantity {
 
         @Override
         public double convert(double x) {
-            return _invert ? (141.5) / (x + 131.5) : (141.5 / x) - 131.5;
+            return _invert ? (141.5 / x) - 131.5 : (141.5) / (x + 131.5);
         }
 
         @Override
