@@ -584,7 +584,7 @@ public final class NonSI extends SystemOfUnits {
      * A unit of pressure equal to <code>100 kPa</code>
      * (standard name <code>bar</code>).
      */
-    public static final Unit<Pressure> DEKAMICROBAR = nonSI(new AlternateUnit<>("dubar", NEWTON.divide(METRE.pow(2))));
+    public static final Unit<Pressure> DEKAMICROBAR = new AlternateUnit<>("dubar", NEWTON.divide(METRE.pow(2)));
     public static final Unit<Pressure> BAR = nonSI(DEKAMICROBAR.times(100000));
 
     /**
