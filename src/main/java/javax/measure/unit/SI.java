@@ -146,8 +146,7 @@ public final class SI extends SystemOfUnits {
      * One radian is the angle between two radii of a circle such that the
      * length of the arc between them is equal to the radius.
      */
-    public static final AlternateUnit<Angle> RADIAN = si(new AlternateUnit<Angle>(
-            "rad", Unit.ONE));
+    public static final BaseUnit<Angle> RADIAN = si(new BaseUnit<>("rad"));
 
     /**
      * The unit for solid angle quantities (<code>sr</code>).
@@ -155,14 +154,12 @@ public final class SI extends SystemOfUnits {
      * an area on the surface of the sphere that is equal to the radius squared.
      * The total solid angle of a sphere is 4*Pi steradians.
      */
-    public static final AlternateUnit<SolidAngle> STERADIAN = si(new AlternateUnit<SolidAngle>(
-            "sr", Unit.ONE));
+    public static final BaseUnit<SolidAngle> STERADIAN = si(new BaseUnit<>("sr"));
 
     /**
      * The unit for binary information (<code>bit</code>).
      */
-    public static final AlternateUnit<DataAmount> BIT = si(new AlternateUnit<DataAmount>(
-            "bit", Unit.ONE));
+    public static final BaseUnit<DataAmount> BIT = si(new BaseUnit<>("bit"));
 
     /**
      * The derived unit for frequency (<code>Hz</code>).
