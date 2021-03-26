@@ -74,6 +74,15 @@ public class UnitTest {
         softly.assertAll();
     }
 
+    @Test
+    public void testPressureChanges() {
+        assertThat(NonSI.BAR.getConverterTo(SI.PASCAL).convert(1.0)).isEqualTo(100_000.0);
+        assertThat(SI.PASCAL.getConverterTo(NonSI.BAR).convert(100_000.0)).isEqualTo(1.0);
+        assertThat(NonSI.BAR.toString()).isEqualTo("bar");
+        assertThat(Unit.valueOf("bar")).isEqualTo(NonSI.BAR);
+        assertThat(Unit.valueOf("daµbar")).as("Regrettable that we need to expose this odd unit").isNotNull();
+    }
+
     private static final Map<String, String> DIVISION_UNITS;
 
     static {
