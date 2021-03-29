@@ -581,10 +581,17 @@ public final class NonSI extends SystemOfUnits {
     public static final Unit<Pressure> ATMOSPHERE = nonSI(PASCAL.times(101325));
 
     /**
+     * An invented unit of pressure equal to <code>1 Pa</code>
+     * This exists to stop the collision of hPa and mbar.
+     * Deka-Micro = 10 * 10^-6 = 10^-5.
+     */
+    private static final Unit<Pressure> DEKAMICROBAR = new AlternateUnit<>("daµbar", NEWTON.divide(METRE.pow(2)));
+
+    /**
      * A unit of pressure equal to <code>100 kPa</code>
      * (standard name <code>bar</code>).
      */
-    public static final Unit<Pressure> BAR = nonSI(PASCAL.times(100000));
+    public static final Unit<Pressure> BAR = nonSI(DEKAMICROBAR.times(100000));
 
     /**
      * A unit of pressure equal to the pressure exerted at the Earth's
