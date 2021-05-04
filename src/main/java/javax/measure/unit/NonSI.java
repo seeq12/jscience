@@ -95,6 +95,30 @@ public final class NonSI extends SystemOfUnits {
             .transform(new LogConverter(10).inverse().concatenate(
                     new RationalConverter(1, 10))));
 
+    /**
+     * New unit of length equal to <code>>ppm</code>
+     */
+    private static final Unit<Miscellaneous> PARTS_PER_MILLION_VOLUME = new AlternateUnit<>("ppmv",
+            Miscellaneous.ppm);
+
+    /**
+     * A unit of length equal to <code>>pmmv</code>
+     * (standard name <code>ppm</code>).
+     */
+    public static final Unit<Miscellaneous> PPMV = nonSI(PARTS_PER_MILLION_VOLUME);
+
+    /**
+     * New unit of length equal to <code>>ppm</code>
+     */
+    private static final Unit<Miscellaneous> PARTS_PER_MILLION_WEIGHT = new AlternateUnit<>("ppmw",
+            Miscellaneous.ppm);
+
+    /**
+     * A unit of length equal to <code>>pmmw</code>
+     * (standard name <code>ppm</code>).
+     */
+    public static final Unit<Miscellaneous> PPMW = nonSI(PARTS_PER_MILLION_WEIGHT);
+
     /////////////////////////
     // Amount of substance //
     /////////////////////////
@@ -195,6 +219,20 @@ public final class NonSI extends SystemOfUnits {
      * Equivalent {@link #PIXEL}
      */
     public static final Unit<Length> COMPUTER_POINT = PIXEL;
+
+
+    /**
+     * New unit of length equal to <code>>meter</code>
+     */
+    private static final Unit<Length> GIGA_MICRON = new AlternateUnit<>("gmicron",
+            METER);
+
+    /**
+     * A unit of length equal to <code>>micron</code>
+     * (standard name <code>micron</code>).
+     */
+    public static final Unit<Length> MICRON = nonSI(GIGA_MICRON.divide(1_000_000));
+
 
     //////////////
     // Duration //
@@ -656,6 +694,19 @@ public final class NonSI extends SystemOfUnits {
     ////////////
     // Volume //
     ////////////
+
+    /**
+     * New unit of volume equal to <code>>m³</code>
+     */
+    private static final Unit<Volume> DEKA_MIKRO_CUBIC_METER = new AlternateUnit<>("daµcc",
+            METRE.pow(3));
+
+    /**
+     * A unit of volume equal to <code>>cm³</code>
+     * (standard name <code>cm³</code>).
+     */
+    public static final Unit<Volume> CUBIC_CENTI_METER = nonSI(DEKA_MIKRO_CUBIC_METER.divide(1_000_000));
+
 
     /**
      * A unit of volume equal to one cubic decimeter (default label

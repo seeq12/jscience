@@ -967,6 +967,8 @@ public abstract class UnitFormat extends Format {
         DEFAULT.label(NonSI.GALLON_UK, "gallon_uk");
         DEFAULT.label(NonSI.OUNCE_LIQUID_UK, "oz_uk");
         DEFAULT.label(NonSI.ROENTGEN, "Roentgen");
+        DEFAULT.label(NonSI.CUBIC_CENTI_METER, "cc");
+        DEFAULT.label(NonSI.MICRON, "micron");
         if (Locale.getDefault().getCountry().equals("GB")) {
             DEFAULT.label(NonSI.GALLON_UK, "gal");
             DEFAULT.label(NonSI.OUNCE_LIQUID_UK, "oz");
