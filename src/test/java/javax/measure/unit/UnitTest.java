@@ -7,8 +7,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.measure.quantity.Miscellaneous;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
@@ -74,48 +72,6 @@ public class UnitTest {
         }
 
         softly.assertAll();
-    }
-
-    @Test
-    public void testPressureChanges() {
-        assertThat(NonSI.BAR.getConverterTo(SI.PASCAL).convert(1.0)).isEqualTo(100_000.0);
-        assertThat(SI.PASCAL.getConverterTo(NonSI.BAR).convert(100_000.0)).isEqualTo(1.0);
-        assertThat(NonSI.BAR.toString()).isEqualTo("bar");
-        assertThat(Unit.valueOf("bar")).isEqualTo(NonSI.BAR);
-        assertThat(Unit.valueOf("daµbar")).as("Regrettable that we need to expose this odd unit").isNotNull();
-    }
-
-    @Test
-    public void testCubicCentiMetreChanges() {
-        assertThat(NonSI.CUBIC_CENTI_METER.getConverterTo(SI.CUBIC_METRE).convert(1_000_000.0)).isEqualTo(1.0);
-        assertThat(SI.CUBIC_METRE.getConverterTo(NonSI.CUBIC_CENTI_METER).convert(1)).isEqualTo(1_000_000.0);
-        assertThat(NonSI.CUBIC_CENTI_METER.toString()).isEqualTo("cc");
-        assertThat(Unit.valueOf("cc")).isEqualTo(NonSI.CUBIC_CENTI_METER);
-        assertThat(Unit.valueOf("cc")).isNotNull();
-    }
-
-    @Test
-    public void testMicronChanges() {
-        assertThat(NonSI.MICRON.getConverterTo(SI.CENTIMETER).convert(10_000.0)).isEqualTo(1.0);
-        assertThat(SI.CENTIMETER.getConverterTo(NonSI.MICRON).convert(1)).isEqualTo(10_000.0);
-        assertThat(NonSI.MICRON.toString()).isEqualTo("micron");
-        assertThat(Unit.valueOf("micron")).isEqualTo(NonSI.MICRON);
-        assertThat(Unit.valueOf("micron")).isNotNull();
-    }
-
-    @Test
-    public void testPartsPerMillionVolumeChanges() {
-        assertThat(NonSI.PPMV.getConverterTo(Miscellaneous.ppm).convert(1.0)).isEqualTo(1.0);
-        assertThat(Miscellaneous.ppm.getConverterTo(NonSI.PPMV).convert(1.0)).isEqualTo(1.0);
-        assertThat(NonSI.PPMV.toString()).isEqualTo("ppmv");
-        assertThat(Unit.valueOf("ppmv")).isEqualTo(NonSI.PPMV);
-        assertThat(Unit.valueOf("ppmv")).isNotNull();
-
-        assertThat(NonSI.PPMW.getConverterTo(Miscellaneous.ppm).convert(1.0)).isEqualTo(1.0);
-        assertThat(Miscellaneous.ppm.getConverterTo(NonSI.PPMW).convert(1.0)).isEqualTo(1.0);
-        assertThat(NonSI.PPMW.toString()).isEqualTo("ppmw");
-        assertThat(Unit.valueOf("ppmw")).isEqualTo(NonSI.PPMW);
-        assertThat(Unit.valueOf("ppmw")).isNotNull();
     }
 
     private static final Map<String, String> DIVISION_UNITS;

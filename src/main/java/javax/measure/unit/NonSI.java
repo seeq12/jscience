@@ -2,7 +2,7 @@
  * JScience - Java(TM) Tools and Libraries for the Advancement of Sciences.
  * Copyright (C) 2006 - JScience (http://jscience.org/)
  * All rights reserved.
- * 
+ *
  * Permission to use, copy, modify, and distribute this software is
  * freely granted, provided that this notice is preserved.
  */
@@ -22,7 +22,7 @@ import static javax.measure.unit.SI.*;
  * <p> This class contains units that are not part of the International
  *     System of Units, that is, they are outside the SI, but are important
  *     and widely used.</p>
- *     
+ *
  * @author  <a href="mailto:jean-marie@dautelle.com">Jean-Marie Dautelle</a>
  * @version 4.2, August 26, 2007
  */
@@ -48,8 +48,8 @@ public final class NonSI extends SystemOfUnits {
     /**
      * Holds the avoirdupois pound: 0.45359237 kg exact
      */
-    private static final int AVOIRDUPOIS_POUND_DIVIDEND =  45359237; 
-    private static final int AVOIRDUPOIS_POUND_DIVISOR  = 100000000; 
+    private static final int AVOIRDUPOIS_POUND_DIVIDEND =  45359237;
+    private static final int AVOIRDUPOIS_POUND_DIVISOR  = 100000000;
 
     /**
      * Holds the Avogadro constant.
@@ -82,7 +82,7 @@ public final class NonSI extends SystemOfUnits {
     ///////////////////
 
     /**
-     * A dimensionless unit equals to <code>0.01</code> 
+     * A dimensionless unit equals to <code>0.01</code>
      * (standard name <code>%</code>).
      */
     public static final Unit<Dimensionless> PERCENT = nonSI(Unit.ONE.divide(100));
@@ -94,30 +94,6 @@ public final class NonSI extends SystemOfUnits {
     public static final Unit<Miscellaneous> DECIBEL = nonSI(new BaseUnit<Miscellaneous>("dB")
             .transform(new LogConverter(10).inverse().concatenate(
                     new RationalConverter(1, 10))));
-
-    /**
-     * New unit of length equal to <code>>ppm</code>
-     */
-    private static final Unit<Miscellaneous> PARTS_PER_MILLION_VOLUME = new AlternateUnit<>("ppmv",
-            Miscellaneous.ppm);
-
-    /**
-     * A unit of length equal to <code>>pmmv</code>
-     * (standard name <code>ppm</code>).
-     */
-    public static final Unit<Miscellaneous> PPMV = nonSI(PARTS_PER_MILLION_VOLUME);
-
-    /**
-     * New unit of length equal to <code>>ppm</code>
-     */
-    private static final Unit<Miscellaneous> PARTS_PER_MILLION_WEIGHT = new AlternateUnit<>("ppmw",
-            Miscellaneous.ppm);
-
-    /**
-     * A unit of length equal to <code>>pmmw</code>
-     * (standard name <code>ppm</code>).
-     */
-    public static final Unit<Miscellaneous> PPMW = nonSI(PARTS_PER_MILLION_WEIGHT);
 
     /////////////////////////
     // Amount of substance //
@@ -135,13 +111,13 @@ public final class NonSI extends SystemOfUnits {
     ////////////
 
     /**
-     * A unit of length equal to <code>0.3048 m</code> 
+     * A unit of length equal to <code>0.3048 m</code>
      * (standard name <code>ft</code>).
      */
     public static final Unit<Length> FOOT = nonSI(METRE.times(INTERNATIONAL_FOOT_DIVIDEND).divide(INTERNATIONAL_FOOT_DIViSOR));
 
     /**
-     * A unit of length equal to <code>1200/3937 m</code> 
+     * A unit of length equal to <code>1200/3937 m</code>
      * (standard name <code>foot_survey_us</code>).
      * See also: <a href="http://www.sizes.com/units/foot.htm">foot</a>
      */
@@ -155,7 +131,7 @@ public final class NonSI extends SystemOfUnits {
     public static final Unit<Length> YARD = nonSI(FOOT.times(3));
 
     /**
-     * A unit of length equal to <code>0.0254 m</code> 
+     * A unit of length equal to <code>0.0254 m</code>
      * (standard name <code>in</code>).
      */
     public static final Unit<Length> INCH = nonSI(FOOT.divide(12));
@@ -219,20 +195,6 @@ public final class NonSI extends SystemOfUnits {
      * Equivalent {@link #PIXEL}
      */
     public static final Unit<Length> COMPUTER_POINT = PIXEL;
-
-
-    /**
-     * New unit of length equal to <code>>meter</code>
-     */
-    private static final Unit<Length> GIGA_MICRON = new AlternateUnit<>("gmicron",
-            METER);
-
-    /**
-     * A unit of length equal to <code>>micron</code>
-     * (standard name <code>micron</code>).
-     */
-    public static final Unit<Length> MICRON = nonSI(GIGA_MICRON.divide(1_000_000));
-
 
     //////////////
     // Duration //
@@ -327,7 +289,7 @@ public final class NonSI extends SystemOfUnits {
     public static final Unit<Mass> OUNCE = nonSI(POUND.divide(16));
 
     /**
-     * A unit of mass equal to <code>2000 {@link #POUND}</code> (short ton, 
+     * A unit of mass equal to <code>2000 {@link #POUND}</code> (short ton,
      * standard name <code>ton_us</code>).
      */
     public static final Unit<Mass> TON_US = nonSI(POUND.times(2000));
@@ -382,7 +344,7 @@ public final class NonSI extends SystemOfUnits {
     public static final Unit<Temperature> RANKINE = nonSI(KELVIN.times(5).divide(9));
 
     /**
-     * A unit of temperature equal to degree Rankine minus 
+     * A unit of temperature equal to degree Rankine minus
      * <code>459.67 °R</code> (standard name <code>°F</code>).
      * @see    #RANKINE
      */
@@ -393,7 +355,7 @@ public final class NonSI extends SystemOfUnits {
     ///////////
 
     /**
-     * A unit of angle equal to a full circle or <code>2<i>&pi;</i> 
+     * A unit of angle equal to a full circle or <code>2<i>&pi;</i>
      * {@link SI#RADIAN}</code> (standard name <code>rev</code>).
      */
     public static final Unit<Angle> REVOLUTION = nonSI(RADIAN.times(2.0 * Math.PI));
@@ -433,17 +395,17 @@ public final class NonSI extends SystemOfUnits {
     //////////////
 
     /**
-     * A unit of velocity expressing the number of international {@link 
+     * A unit of velocity expressing the number of international {@link
      * #MILE miles} per {@link #HOUR hour} (abbreviation <code>mph</code>).
      */
-    public static final Unit<Velocity> MILES_PER_HOUR 
+    public static final Unit<Velocity> MILES_PER_HOUR
          = nonSI(NonSI.MILE.divide(NonSI.HOUR)).asType(Velocity.class);
 
     /**
-     * A unit of velocity expressing the number of {@link SI#KILOMETRE} per 
+     * A unit of velocity expressing the number of {@link SI#KILOMETRE} per
      * {@link #HOUR hour}.
      */
-    public static final Unit<Velocity> KILOMETRES_PER_HOUR 
+    public static final Unit<Velocity> KILOMETRES_PER_HOUR
          = nonSI(SI.KILOMETRE.divide(NonSI.HOUR)).asType(Velocity.class);
 
     /**
@@ -455,7 +417,7 @@ public final class NonSI extends SystemOfUnits {
      * A unit of velocity expressing the number of  {@link #NAUTICAL_MILE
      * nautical miles} per {@link #HOUR hour} (abbreviation <code>kn</code>).
      */
-    public static final Unit<Velocity> KNOT 
+    public static final Unit<Velocity> KNOT
          = nonSI(NonSI.NAUTICAL_MILE.divide(NonSI.HOUR)).asType(Velocity.class);
 
     /**
@@ -536,7 +498,7 @@ public final class NonSI extends SystemOfUnits {
     public static final Unit<Energy> ERG = nonSI(JOULE.divide(10000000));
 
     /**
-     * A unit of energy equal to one electron-volt (standard name 
+     * A unit of energy equal to one electron-volt (standard name
      * <code>eV</code>, also recognized <code>keV, MeV, GeV</code>).
      */
     public static final Unit<Energy> ELECTRON_VOLT = nonSI(JOULE
@@ -619,19 +581,6 @@ public final class NonSI extends SystemOfUnits {
     public static final Unit<Pressure> ATMOSPHERE = nonSI(PASCAL.times(101325));
 
     /**
-     * An invented unit of pressure equal to <code>1 Pa</code>
-     * This exists to stop the collision of hPa and mbar.
-     * Deka-Micro = 10 * 10^-6 = 10^-5.
-     */
-    private static final Unit<Pressure> DEKAMICROBAR = new AlternateUnit<>("daµbar", NEWTON.divide(METRE.pow(2)));
-
-    /**
-     * A unit of pressure equal to <code>100 kPa</code>
-     * (standard name <code>bar</code>).
-     */
-    public static final Unit<Pressure> BAR = nonSI(DEKAMICROBAR.times(100000));
-
-    /**
      * A unit of pressure equal to the pressure exerted at the Earth's
      * surface by a column of mercury 1 millimeter high
      * (standard name <code>mmHg</code>).
@@ -696,19 +645,6 @@ public final class NonSI extends SystemOfUnits {
     ////////////
 
     /**
-     * New unit of volume equal to <code>>m³</code>
-     */
-    private static final Unit<Volume> DEKA_MIKRO_CUBIC_METER = new AlternateUnit<>("daµcc",
-            METRE.pow(3));
-
-    /**
-     * A unit of volume equal to <code>>cm³</code>
-     * (standard name <code>cm³</code>).
-     */
-    public static final Unit<Volume> CUBIC_CENTI_METER = nonSI(DEKA_MIKRO_CUBIC_METER.divide(1_000_000));
-
-
-    /**
      * A unit of volume equal to one cubic decimeter (default label
      * <code>L</code>, also recognized <code>µL, mL, cL, dL</code>).
      */
@@ -766,7 +702,7 @@ public final class NonSI extends SystemOfUnits {
      * (cgs unit).
      */
     @SuppressWarnings("unchecked")
-    public static final Unit<DynamicViscosity> 
+    public static final Unit<DynamicViscosity>
          POISE = nonSI((Unit<DynamicViscosity>) GRAM.divide(CENTI(METRE).times(SECOND)));
 
     /**
@@ -774,9 +710,9 @@ public final class NonSI extends SystemOfUnits {
      * (cgs unit).
      */
     @SuppressWarnings("unchecked")
-    public static final Unit<KinematicViscosity> 
+    public static final Unit<KinematicViscosity>
          STOKE = nonSI((Unit<KinematicViscosity>) CENTI(METRE).pow(2).divide(SECOND));
-    
+
 
     ////////////
     // Others //
@@ -788,11 +724,11 @@ public final class NonSI extends SystemOfUnits {
      */
     public static final Unit<?> ROENTGEN = nonSI(COULOMB.divide(KILOGRAM).times(2.58e-4));
 
-    
+
     /////////////////////
     // Collection View //
     /////////////////////
-    
+
     /**
      * Returns a read only view over the units defined in this class.
      *
