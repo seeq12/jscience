@@ -45,7 +45,7 @@ public final class AlternateUnit<Q extends Quantity> extends DerivedUnit<Q> {
      * @throws IllegalArgumentException if the specified symbol is 
      *         associated to a different unit.
      */
-    AlternateUnit(String symbol, Unit<?> parent) {
+    public AlternateUnit(String symbol, Unit<?> parent) {
         if (!parent.isStandardUnit())
             throw new UnsupportedOperationException(this
                     + " is not a standard unit");

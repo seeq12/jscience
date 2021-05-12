@@ -2,7 +2,7 @@
  * JScience - Java(TM) Tools and Libraries for the Advancement of Sciences.
  * Copyright (C) 2006 - JScience (http://jscience.org/)
  * All rights reserved.
- * 
+ *
  * Permission to use, copy, modify, and distribute this software is
  * freely granted, provided that this notice is preserved.
  */
@@ -26,9 +26,9 @@ import javax.measure.quantity.Quantity;
 import static javax.measure.unit.SI.*;
 
 /**
- * <p> This class provides the interface for formatting and parsing {@link 
+ * <p> This class provides the interface for formatting and parsing {@link
  *     Unit units}.</p>
- *     
+ *
  * <p> For all {@link SI} units, the 20 SI prefixes used to form decimal
  *     multiples and sub-multiples of SI units are recognized.
  *     {@link NonSI} units are directly recognized. For example:[code]
@@ -53,10 +53,10 @@ public abstract class UnitFormat extends Format {
     private static final ASCIIFormat ASCII = new ASCIIFormat();
 
     /**
-     * Returns the unit format for the default locale (format used by 
-     * {@link Unit#valueOf(CharSequence) Unit.valueOf(CharSequence)} and 
+     * Returns the unit format for the default locale (format used by
+     * {@link Unit#valueOf(CharSequence) Unit.valueOf(CharSequence)} and
      * {@link Unit#toString() Unit.toString()}).
-     * 
+     *
      *  @return the default unit format (locale sensitive).
      */
     public static UnitFormat getInstance() {
@@ -65,11 +65,11 @@ public abstract class UnitFormat extends Format {
 
     /**
      * Returns the unit format for the specified locale.
-     * 
+     *
      * @return the unit format for the specified locale.
      */
     public static UnitFormat getInstance(Locale inLocale) {
-        return DEFAULT; // TBD: Implement Locale Format. 
+        return DEFAULT; // TBD: Implement Locale Format.
     }
 
     /**
@@ -77,13 +77,13 @@ public abstract class UnitFormat extends Format {
      * </a> international unit format; this format uses characters range
      * <code>0000-007F</code> exclusively and <b>is not</b> locale-sensitive.
      * For example: <code>kg.m/s2</code>
-     * 
+     *
      * @return the UCUM international format.
      */
     public static UnitFormat getUCUMInstance() {
         return UnitFormat.ASCII; // TBD - Provide UCUM implementation.
     }
-  
+
     /**
      * Base constructor.
      */
@@ -102,7 +102,7 @@ public abstract class UnitFormat extends Format {
 
     /**
      * Parses a sequence of character to produce a unit or a rational product
-     * of unit. 
+     * of unit.
      *
      * @param csq the <code>CharSequence</code> to parse.
      * @param pos an object holding the parsing index and error position.
@@ -114,12 +114,12 @@ public abstract class UnitFormat extends Format {
             throws ParseException;
 
     /**
-     * Parses a sequence of character to produce a single unit. 
+     * Parses a sequence of character to produce a single unit.
      *
      * @param csq the <code>CharSequence</code> to parse.
      * @param pos an object holding the parsing index and error position.
      * @return an {@link Unit} parsed from the character sequence.
-     * @throws IllegalArgumentException if the character sequence does not contain 
+     * @throws IllegalArgumentException if the character sequence does not contain
      *         a valid unit identifier.
      */
     public abstract Unit<? extends Quantity> parseSingleUnit(CharSequence csq, ParsePosition pos)
@@ -131,12 +131,12 @@ public abstract class UnitFormat extends Format {
      *     UnitFormat.getInstance().label(DAY.multiply(365), "year");
      *     UnitFormat.getInstance().label(METER.multiply(0.3048), "ft");
      * [/code]
-     * If the specified label is already associated to an unit the previous 
+     * If the specified label is already associated to an unit the previous
      * association is discarded or ignored.
-     *  
-     * @param  unit the unit being labelled. 
+     *
+     * @param  unit the unit being labelled.
      * @param  label the new label for this unit.
-     * @throws IllegalArgumentException if the label is not a 
+     * @throws IllegalArgumentException if the label is not a
      *         {@link UnitFormat#isValidIdentifier(String)} valid identifier.
      */
     public abstract void label(Unit<?> unit, String label);
@@ -151,12 +151,12 @@ public abstract class UnitFormat extends Format {
      *     UnitFormat.getLocaleInstance().alias(METER, "meter");
      *     UnitFormat.getLocaleInstance().alias(METER, "metre");
      * [/code]
-     * If the specified label is already associated to an unit the previous 
+     * If the specified label is already associated to an unit the previous
      * association is discarded or ignored.
      *
      * @param  unit the unit being aliased.
      * @param  alias the alias attached to this unit.
-     * @throws IllegalArgumentException if the label is not a 
+     * @throws IllegalArgumentException if the label is not a
      *         {@link UnitFormat#isValidIdentifier(String)} valid identifier.
      */
     public abstract void alias(Unit<?> unit, String alias);
@@ -165,7 +165,7 @@ public abstract class UnitFormat extends Format {
      * Indicates if the specified name can be used as unit identifier.
      *
      * @param  name the identifier to be tested.
-     * @return <code>true</code> if the name specified can be used as 
+     * @return <code>true</code> if the name specified can be used as
      *         label or alias for this format;<code>false</code> otherwise.
      */
     public abstract boolean isValidIdentifier(String name);
@@ -183,8 +183,8 @@ public abstract class UnitFormat extends Format {
             FieldPosition pos) {
         try {
             Object dest = toAppendTo;
-            if (dest instanceof Appendable) { 
-                format((Unit<?>) unit, (Appendable)dest);                        
+            if (dest instanceof Appendable) {
+                format((Unit<?>) unit, (Appendable)dest);
             } else {  // When retroweaver is used to produce 1.4 binaries.
                 format((Unit<?>) unit, new Appendable() {
 
@@ -212,10 +212,10 @@ public abstract class UnitFormat extends Format {
     /**
      * Parses the text from a string to produce an object
      * (implements <code>java.text.Format</code>).
-     * 
+     *
      * @param source the string source, part of which should be parsed.
      * @param pos the cursor position.
-     * @return the corresponding unit or <code>null</code> if the string 
+     * @return the corresponding unit or <code>null</code> if the string
      *         cannot be parsed.
      */
     public final Unit<?> parseObject(String source, ParsePosition pos) {
@@ -228,8 +228,8 @@ public abstract class UnitFormat extends Format {
             return null;
         }
     }
-    
-    
+
+
     /**
      * This class represents an exponent with both a power (numerator)
      * and a root (denominator).
@@ -242,7 +242,7 @@ public abstract class UnitFormat extends Format {
             this.root = root;
         }
     }
-    
+
     /**
      * This class represents the standard format.
      */
@@ -291,14 +291,14 @@ public abstract class UnitFormat extends Format {
         }
 
         static boolean isUnitIdentifierPart(char ch) {
-            return Character.isLetter(ch) || 
+            return Character.isLetter(ch) ||
                (!Character.isWhitespace(ch) && !Character.isDigit(ch)
                   && (ch != '·') && (ch != '*') && (ch != '/')
-                  && (ch != '(') && (ch != ')') && (ch != '[') && (ch != ']')    
-                  && (ch != '¹') && (ch != '²') && (ch != '³') 
+                  && (ch != '(') && (ch != ')') && (ch != '[') && (ch != ']')
+                  && (ch != '¹') && (ch != '²') && (ch != '³')
                   && (ch != '^') && (ch != '+') && (ch != '-'));
         }
-        
+
         // Returns the name for the specified unit or null if product unit.
         public String nameFor(Unit<?> unit) {
             // Searches label database.
@@ -369,20 +369,20 @@ public abstract class UnitFormat extends Format {
 
         ////////////////////////////
         // Parsing.
-        
+
         @SuppressWarnings("unchecked")
-        public Unit<? extends Quantity> parseSingleUnit(CharSequence csq, ParsePosition pos) 
+        public Unit<? extends Quantity> parseSingleUnit(CharSequence csq, ParsePosition pos)
                 throws ParseException {
             int startIndex = pos.getIndex();
             String name = readIdentifier(csq, pos);
             Unit unit = unitFor(name);
             check(unit != null, name + " not recognized", csq, startIndex);
-            return unit;            
+            return unit;
         }
-        
+
         @SuppressWarnings("unchecked")
         @Override
-        public Unit<? extends Quantity> parseProductUnit(CharSequence csq, ParsePosition pos) 
+        public Unit<? extends Quantity> parseProductUnit(CharSequence csq, ParsePosition pos)
                 throws ParseException {
             checkForBalancedParentheses(csq);
             Unit result = Unit.ONE;
@@ -409,7 +409,7 @@ public abstract class UnitFormat extends Format {
                     }
                     if (e.root != 1) {
                         result = result.root(e.root);
-                    }   
+                    }
                     break;
                 case MULTIPLY:
                     pos.setIndex(pos.getIndex() + 1);
@@ -521,7 +521,7 @@ public abstract class UnitFormat extends Format {
                     return PLUS;
                 } else if ((c == '-') || Character.isDigit(c)) {
                     int index = pos.getIndex()+1;
-                    while ((index < length) && 
+                    while ((index < length) &&
                            (Character.isDigit(c) || (c == '-') || (c == '.') || (c == 'E'))) {
                         c = csq.charAt(index++);
                         if (c == '.') {
@@ -620,7 +620,7 @@ public abstract class UnitFormat extends Format {
             }
             if (pow == 0) pow = 1;
             if (root == 0) root = 1;
-            return new Exponent(isPowNegative ? -pow : pow, 
+            return new Exponent(isPowNegative ? -pow : pow,
                               isRootNegative ? -root : root);
         }
 
@@ -641,7 +641,7 @@ public abstract class UnitFormat extends Format {
             }
             return isNegative ? -result : result;
         }
-        
+
         private double readDouble (CharSequence csq, ParsePosition pos) {
             final int length = csq.length();
             int start = pos.getIndex();
@@ -655,7 +655,7 @@ public abstract class UnitFormat extends Format {
             pos.setIndex(end+1);
             return Double.parseDouble(csq.subSequence(start,end).toString());
         }
-        
+
         private String readIdentifier(CharSequence csq, ParsePosition pos) {
             final int length = csq.length();
             int start = pos.getIndex();
@@ -664,7 +664,7 @@ public abstract class UnitFormat extends Format {
             pos.setIndex(i);
             return csq.subSequence(start, i).toString();
         }
-        
+
         ////////////////////////////
         // Formatting.
 
@@ -747,7 +747,7 @@ public abstract class UnitFormat extends Format {
                 }
             }
         }
-        
+
         private static final long serialVersionUID = 1L;
     }
 
@@ -814,7 +814,7 @@ public abstract class UnitFormat extends Format {
 
     ////////////////////////////////////////////////////////////////////////////
     // Initializes the standard unit database for SI units.
-    
+
     private static final Unit<?>[] SI_UNITS = { SI.AMPERE, SI.BECQUEREL,
             SI.CANDELA, SI.COULOMB, SI.FARAD, SI.GRAY, SI.HENRY, SI.HERTZ,
             SI.JOULE, SI.KATAL, SI.KELVIN, SI.LUMEN, SI.LUX, SI.METRE, SI.MOLE,
@@ -828,11 +828,11 @@ public abstract class UnitFormat extends Format {
     private static final UnitConverter[] CONVERTERS = { E24, E21, E18, E15, E12,
             E9, E6, E3, E2, E1, Em1, Em2, Em3, Em6, Em9, Em12,
             Em15, Em18, Em21, Em24 };
-    
+
     private static String asciiPrefix(String prefix) {
         return prefix == "µ" ? "micro" : prefix;
     }
-    
+
     static {
         for (int i = 0; i < SI_UNITS.length; i++) {
             for (int j = 0; j < PREFIXES.length; j++) {
@@ -854,7 +854,7 @@ public abstract class UnitFormat extends Format {
                         PREFIXES[i] + "g");
             if (PREFIXES[i] == "µ") {
                  ASCII.label(SI.KILOGRAM.transform(CONVERTERS[i].concatenate(Em3)), "microg");
-            }   
+            }
         }
 
         // Alias and ASCIIFormat for Ohm
@@ -864,7 +864,7 @@ public abstract class UnitFormat extends Format {
             DEFAULT.alias(SI.OHM.transform(CONVERTERS[i]), PREFIXES[i] + "Ohm");
             ASCII.label(SI.OHM.transform(CONVERTERS[i]), asciiPrefix(PREFIXES[i]) + "Ohm");
         }
-        
+
         // Special case for DEGREE_CElSIUS.
         DEFAULT.label(SI.CELSIUS, "℃");
         DEFAULT.alias(SI.CELSIUS, "°C");
@@ -875,9 +875,9 @@ public abstract class UnitFormat extends Format {
             ASCII.label(SI.CELSIUS.transform(CONVERTERS[i]), asciiPrefix(PREFIXES[i]) + "Celsius");
         }
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////
-    // To be moved in resource bundle in future release (locale dependent). 
+    // To be moved in resource bundle in future release (locale dependent).
     static {
         DEFAULT.label(NonSI.PERCENT, "%");
         DEFAULT.label(NonSI.DECIBEL, "dB");
@@ -940,7 +940,6 @@ public abstract class UnitFormat extends Format {
         DEFAULT.label(NonSI.POUND_FORCE, "lbf");
         DEFAULT.label(NonSI.HORSEPOWER, "hp");
         DEFAULT.label(NonSI.ATMOSPHERE, "atm");
-        DEFAULT.label(NonSI.BAR, "bar");
         DEFAULT.label(NonSI.MILLIMETER_OF_MERCURY, "mmHg");
         DEFAULT.label(NonSI.INCH_OF_MERCURY, "inHg");
         DEFAULT.label(NonSI.RAD, "rd");
