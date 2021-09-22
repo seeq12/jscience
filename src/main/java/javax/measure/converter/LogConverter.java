@@ -100,7 +100,25 @@ public final class LogConverter extends UnitConverter {
             return false;
         }
 
+        public double getLogBase() {
+            return _logBase;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof Inverse)) { return false; }
+            Inverse that = (Inverse) obj;
+            return this.getLogBase() == that.getLogBase();
+        }
+
         private static final long serialVersionUID = 1L;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof LogConverter)) { return false; }
+        LogConverter that = (LogConverter) obj;
+        return this._base == that._base;
     }
 
     private static final long serialVersionUID = 1L;

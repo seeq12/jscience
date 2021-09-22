@@ -112,7 +112,7 @@ public final class RationalConverter extends UnitConverter {
      * Returns the greatest common divisor (Euclid's algorithm).
      *
      * @param  m the first number.
-     * @param  nn the second number.
+     * @param  n the second number.
      * @return the greatest common divisor.
      */
     private static long gcd(long m, long n) {
@@ -121,6 +121,15 @@ public final class RationalConverter extends UnitConverter {
         } else {
             return gcd(n, m % n);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof RationalConverter)) { return false; }
+        RationalConverter that = (RationalConverter) obj;
+        // If we had better satisfaction that these were always in lowest terms, this could be optimized to simple
+        // equality checks.
+        return (double) this._dividend / this._divisor == (double) that._dividend / this._divisor;
     }
 
     private static final long serialVersionUID = 1L;

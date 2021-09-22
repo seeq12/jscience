@@ -48,7 +48,6 @@ public interface Miscellaneous extends Quantity {
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj) return true;
             if (!(obj instanceof SpecificGravityConverter))
                 return false;
             SpecificGravityConverter that = (SpecificGravityConverter) obj;

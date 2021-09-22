@@ -82,5 +82,12 @@ public final class MultiplyConverter extends UnitConverter {
                 : new MultiplyConverter(factor);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof MultiplyConverter)) { return false; }
+        MultiplyConverter that = (MultiplyConverter) obj;
+        return this._factor == that._factor;
+    }
+
     private static final long serialVersionUID = 1L;
 }

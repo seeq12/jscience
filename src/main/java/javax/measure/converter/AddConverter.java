@@ -9,6 +9,8 @@
 package javax.measure.converter;
 
 
+import javax.measure.quantity.Miscellaneous;
+
 /**
  * <p> This class represents a converter adding a constant offset 
  *     (approximated as a <code>double</code>) to numeric values.</p>
@@ -74,6 +76,14 @@ public final class AddConverter extends UnitConverter {
     private static UnitConverter valueOf(double offset) {
         float asFloat = (float) offset;
         return asFloat == 0.0f ? UnitConverter.IDENTITY : new AddConverter(offset);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof AddConverter))
+            return false;
+        AddConverter that = (AddConverter) obj;
+        return this._offset == that._offset;
     }
     
     private static final long serialVersionUID = 1L;
