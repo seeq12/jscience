@@ -195,8 +195,10 @@ public abstract class UnitConverter implements Serializable {
 
         @Override
         public boolean equals(Object obj) {
+            if (this == obj) { return true; }
             if (!(obj instanceof Compound)) { return false; }
             Compound that = (Compound) obj;
+            // If we had assurances that this was always in lowest terms, could be simplified for performance gains.
             if (this._first.equals(that._first) && this._second.equals(that._second)) {
                 return true;
             }

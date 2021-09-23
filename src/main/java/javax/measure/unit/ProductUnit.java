@@ -214,7 +214,7 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
      * the specified exponent.
      *
      * @param  unit the unit.
-     * @param  nn the exponent (nn &gt; 0).
+     * @param  n the exponent (nn &gt; 0).
      * @return <code>unit^n</code>
      */
     static Unit<? extends Quantity> getPowInstance(Unit<?> unit, int n) {
@@ -391,7 +391,7 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
      * Returns the greatest common divisor (Euclid's algorithm).
      *
      * @param  m the first number.
-     * @param  nn the second number.
+     * @param  n the second number.
      * @return the greatest common divisor.
      */
     private static int gcd(int m, int n) {
