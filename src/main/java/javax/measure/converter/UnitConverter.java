@@ -202,7 +202,7 @@ public abstract class UnitConverter implements Serializable {
             if (this._first.equals(that._first) && this._second.equals(that._second)) {
                 return true;
             }
-            return ((UnitConverter) this).equals(obj);
+            return super.equals(obj);
         }
 
         private static final long serialVersionUID = 1L;
