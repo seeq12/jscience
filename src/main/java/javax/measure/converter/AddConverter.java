@@ -71,6 +71,17 @@ public final class AddConverter extends UnitConverter {
         }
     }
 
+    @Override
+    public boolean equals(Object cvtr) {
+        if (this == cvtr) {
+            return true;
+        }
+        if (cvtr instanceof AddConverter) {
+            return this._offset == ((AddConverter) cvtr).getOffset();
+        }
+        return super.equals(cvtr);
+    }
+
     private static UnitConverter valueOf(double offset) {
         float asFloat = (float) offset;
         return asFloat == 0.0f ? UnitConverter.IDENTITY : new AddConverter(offset);
