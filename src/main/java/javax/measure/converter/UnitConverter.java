@@ -2,7 +2,7 @@
  * JScience - Java(TM) Tools and Libraries for the Advancement of Sciences.
  * Copyright (C) 2006 - JScience (http://jscience.org/)
  * All rights reserved.
- *
+ * 
  * Permission to use, copy, modify, and distribute this software is
  * freely granted, provided that this notice is preserved.
  */
@@ -12,13 +12,13 @@ import java.io.Serializable;
 
 /**
  * <p> This class represents a converter of numeric values.</p>
- *
+ * 
  * <p> It is not required for sub-classes to be immutable
  *     (e.g. currency converter).</p>
- *
- * <p> Sub-classes must ensure unicity of the {@link #IDENTITY identity}
+ *     
+ * <p> Sub-classes must ensure unicity of the {@link #IDENTITY identity} 
  *     converter. In other words, if the result of an operation is equivalent
- *     to the identity converter, then the unique {@link #IDENTITY} instance
+ *     to the identity converter, then the unique {@link #IDENTITY} instance 
  *     should be returned.</p>
  *
  * @author  <a href="mailto:jean-marie@dautelle.com">Jean-Marie Dautelle</a>
@@ -62,7 +62,7 @@ public abstract class UnitConverter implements Serializable {
      * <code>convert(r * u) == r * convert(u)</code>.
      * For linear converters the following property always hold:[code]
      *     y1 = c1.convert(x1);
-     *     y2 = c2.convert(x2);
+     *     y2 = c2.convert(x2); 
      * then y1*y2 = c1.concatenate(c2).convert(x1*x2)[/code]
      *
      * @return <code>true</code> if this converter is linear;
@@ -71,18 +71,18 @@ public abstract class UnitConverter implements Serializable {
     public abstract boolean isLinear();
 
     /**
-     * Indicates whether this converter is considered the same as the
-     * converter specified. To be considered equal this converter
+     * Indicates whether this converter is considered the same as the  
+     * converter specified. To be considered equal this converter 
      * concatenated with the one specified must returns the {@link #IDENTITY}.
      *
      * @param  cvtr the converter with which to compare.
-     * @return <code>true</code> if the specified object is a converter
+     * @return <code>true</code> if the specified object is a converter 
      *         considered equals to this converter;<code>false</code> otherwise.
      */
     public boolean equals(Object cvtr) {
         if (this == cvtr) return true;
         if (!(cvtr instanceof UnitConverter)) return false;
-        return this.concatenate(((UnitConverter)cvtr).inverse()) == IDENTITY;
+        return this.concatenate(((UnitConverter)cvtr).inverse()) == IDENTITY;        
     }
 
     /**
@@ -100,11 +100,11 @@ public abstract class UnitConverter implements Serializable {
      * Concatenates this converter with another converter. The resulting
      * converter is equivalent to first converting by the specified converter,
      * and then converting by this converter.
-     *
+     * 
      * <p>Note: Implementations must ensure that the {@link #IDENTITY} instance
-     *          is returned if the resulting converter is an identity
-     *          converter.</p>
-     *
+     *          is returned if the resulting converter is an identity 
+     *          converter.</p> 
+     * 
      * @param  converter the other converter.
      * @return the concatenation of this converter with the other converter.
      */
