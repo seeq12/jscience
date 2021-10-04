@@ -80,6 +80,7 @@ public abstract class UnitConverter implements Serializable {
      *         considered equals to this converter;<code>false</code> otherwise.
      */
     public boolean equals(Object cvtr) {
+        if (this == cvtr) return true;
         if (!(cvtr instanceof UnitConverter)) return false;
         return this.concatenate(((UnitConverter)cvtr).inverse()) == IDENTITY;        
     }

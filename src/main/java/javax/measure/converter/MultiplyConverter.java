@@ -82,5 +82,20 @@ public final class MultiplyConverter extends UnitConverter {
                 : new MultiplyConverter(factor);
     }
 
+    @Override
+    public boolean equals(Object cvtr) {
+        if (this == cvtr) {
+            return true;
+        }
+        if (cvtr instanceof MultiplyConverter) {
+            return this._factor == ((MultiplyConverter) cvtr).getFactor();
+        }
+        if (cvtr instanceof RationalConverter) {
+            RationalConverter that = (RationalConverter) cvtr;
+            return this._factor == ((double) that.getDividend()) / that.getDivisor();
+        }
+        return super.equals(cvtr);
+    }
+
     private static final long serialVersionUID = 1L;
 }
