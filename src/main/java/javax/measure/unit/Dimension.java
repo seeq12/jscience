@@ -167,6 +167,15 @@ public final class Dimension implements Serializable {
     }
 
     /**
+     * Returns the pseudo unit for this dimension.
+     *
+     * @return this dimension's pseudo unit.
+     */
+    public Unit<?> getPseudoUnit() {
+        return _pseudoUnit;
+    }
+
+    /**
      * Sets the model used to determinate the units dimensions.
      *  
      * @param model the new model to be used when calculating unit dimensions.
