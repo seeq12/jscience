@@ -169,7 +169,8 @@ public final class Dimension implements Serializable {
     /**
      * Returns the pseudo unit for this dimension.
      *
-     * @return this dimension's pseudo unit.
+     * @return the representation of this dimension as a combination of SI dimension labels. See dimension definitions
+     * for specific symbols.
      */
     public Unit<?> getPseudoUnit() {
         return _pseudoUnit;
