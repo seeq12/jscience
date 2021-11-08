@@ -8,7 +8,6 @@
  */
 package javax.measure.converter;
 
-
 /**
  * <p> This class represents a converter adding a constant offset 
  *     (approximated as a <code>double</code>) to numeric values.</p>
@@ -79,7 +78,12 @@ public final class AddConverter extends UnitConverter {
         if (cvtr instanceof AddConverter) {
             return this._offset == ((AddConverter) cvtr).getOffset();
         }
-        return super.equals(cvtr);
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(this._offset);
     }
 
     private static UnitConverter valueOf(double offset) {

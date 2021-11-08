@@ -115,7 +115,12 @@ public final class RationalConverter extends UnitConverter {
         if (cvtr instanceof MultiplyConverter) {
             return ((double) this._dividend) / this._divisor == ((MultiplyConverter) cvtr).getFactor();
         }
-        return super.equals(cvtr);
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode((double) this._dividend / this._divisor);
     }
 
     private static UnitConverter valueOf(long dividend, long divisor) {
