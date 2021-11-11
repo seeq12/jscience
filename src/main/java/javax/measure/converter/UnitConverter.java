@@ -71,32 +71,6 @@ public abstract class UnitConverter implements Serializable {
     public abstract boolean isLinear();
 
     /**
-     * Indicates whether this converter is considered the same as the  
-     * converter specified. To be considered equal this converter 
-     * concatenated with the one specified must returns the {@link #IDENTITY}.
-     *
-     * @param  cvtr the converter with which to compare.
-     * @return <code>true</code> if the specified object is a converter 
-     *         considered equals to this converter;<code>false</code> otherwise.
-     */
-    public boolean equals(Object cvtr) {
-        if (this == cvtr) return true;
-        if (!(cvtr instanceof UnitConverter)) return false;
-        return this.concatenate(((UnitConverter)cvtr).inverse()) == IDENTITY;        
-    }
-
-    /**
-     * Returns a hash code value for this converter. Equals object have equal
-     * hash codes.
-     *
-     * @return this converter hash code value.
-     * @see    #equals
-     */
-    public int hashCode() {
-        return Float.floatToIntBits((float)convert(1.0));
-    }
-
-    /**
      * Concatenates this converter with another converter. The resulting
      * converter is equivalent to first converting by the specified converter,
      * and then converting by this converter.
@@ -139,6 +113,15 @@ public abstract class UnitConverter implements Serializable {
 
         private static final long serialVersionUID = 1L;
 
+        @Override
+        public boolean equals(Object cvtr) {
+            return cvtr instanceof Identity;
+        }
+
+        @Override
+        public int hashCode() {
+            return 0;
+        }
     }
 
     /**
@@ -181,6 +164,23 @@ public abstract class UnitConverter implements Serializable {
         @Override
         public boolean isLinear() {
             return _first.isLinear() && _second.isLinear();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o instanceof Compound) {
+                Compound compound = (Compound) o;
+                return this._first.equals(compound._first) && this._second.equals(compound._second);
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return 31* this._first.hashCode() + this._second.hashCode();
         }
 
         private static final long serialVersionUID = 1L;

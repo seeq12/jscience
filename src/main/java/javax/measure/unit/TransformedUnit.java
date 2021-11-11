@@ -103,7 +103,7 @@ public final class TransformedUnit<Q extends Quantity> extends DerivedUnit<Q> {
 
     // Implements abstract method.
     public int hashCode() {
-        return _parentUnit.hashCode() + _toParentUnit.hashCode();
+        return 31 * _parentUnit.hashCode() + _toParentUnit.hashCode();
     }
 
     // Implements abstract method.

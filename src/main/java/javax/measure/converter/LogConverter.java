@@ -8,6 +8,8 @@
  */
 package javax.measure.converter;
 
+import java.util.Objects;
+
 /**
  * <p> This class represents a logarithmic converter. Such converter 
  *     is typically used to create logarithmic unit. For example:[code]
@@ -78,6 +80,23 @@ public final class LogConverter extends UnitConverter {
         return false;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof LogConverter) {
+            LogConverter that = (LogConverter) o;
+            return that._base == this._base;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(this._base);
+    }
+
     /**
      * This inner class represents the inverse of the logarithmic converter
      * (exponentiation converter).
@@ -98,6 +117,24 @@ public final class LogConverter extends UnitConverter {
         @Override
         public boolean isLinear() {
             return false;
+        }
+
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o instanceof Inverse) {
+                Inverse that = (Inverse) o;
+                return that.inverse().equals(this.inverse());
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return -this.inverse().hashCode();
         }
 
         private static final long serialVersionUID = 1L;

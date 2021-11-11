@@ -94,7 +94,12 @@ public final class MultiplyConverter extends UnitConverter {
             RationalConverter that = (RationalConverter) cvtr;
             return this._factor == ((double) that.getDividend()) / that.getDivisor();
         }
-        return super.equals(cvtr);
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(this._factor);
     }
 
     private static final long serialVersionUID = 1L;
