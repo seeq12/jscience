@@ -448,7 +448,7 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
      */
     public final Unit<? extends Quantity> pow(int n) {
         if (n > 0) {
-            return this.times(this.pow(n - 1));
+            return ProductUnit.getPowInstance(this, n);
         } else if (n == 0) {
             return ONE;
         } else { // n < 0
