@@ -50,6 +50,16 @@ public final class TransformedUnit<Q extends Quantity> extends DerivedUnit<Q> {
     private final UnitConverter _toParentUnit;
 
     /**
+     * Holds the standard unit of this unit.
+     */
+    private Unit<? super Q> _standardUnit;
+
+    /**
+     * Holds the standard unit converter of this unit.
+     */
+    private UnitConverter _standardUnitConverter;
+
+    /**
      * Creates a transformed unit from the specified parent unit.
      *
      * @param parentUnit the untransformed unit from which this unit is 
@@ -108,11 +118,27 @@ public final class TransformedUnit<Q extends Quantity> extends DerivedUnit<Q> {
 
     // Implements abstract method.
     public Unit<? super Q> getStandardUnit() {
+        if(_standardUnit == null) {
+            _standardUnit = computeStandardUnit();
+        }
+
+        return _standardUnit;
+    }
+
+    private Unit<? super Q> computeStandardUnit() {
         return _parentUnit.getStandardUnit();
     }
 
     // Implements abstract method.
     public UnitConverter toStandardUnit() {
+        if (_standardUnitConverter == null) {
+            _standardUnitConverter = computeStandardUnitConverter();
+        }
+
+        return _standardUnitConverter;
+    }
+
+    private UnitConverter computeStandardUnitConverter() {
         return _parentUnit.toStandardUnit().concatenate(_toParentUnit);
     }
 

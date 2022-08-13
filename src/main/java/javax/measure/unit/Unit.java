@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.measure.MeasureFormat;
 import javax.measure.converter.AddConverter;
@@ -63,6 +64,16 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
      * Holds the unique symbols collection (base unit or alternate units).
      */
     static final HashMap<String, Unit<?>> SYMBOL_TO_UNIT = new HashMap<String, Unit<?>>();
+
+    /**
+     * Holds the dimension of this unit
+     */
+    private Dimension _dimension;
+
+    /**
+     * Holds the baseUnits of this unit
+     */
+    private Unit<?> _baseUnits;
 
     /**
      * Default constructor.
@@ -184,6 +195,20 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
      * @return the dimension of this unit for the current model.
      */
     public final Dimension getDimension() {
+        if(_dimension == null) {
+            _dimension = computeDimension();
+        }
+
+        return _dimension;
+    }
+
+    /**
+     * Computes the dimension of this unit (depends upon the current
+     * dimensional {@link Dimension.Model model}).
+     *
+     * @return the dimension of this unit for the current model.
+     */
+    private Dimension computeDimension() {
         Unit<?> systemUnit = this.getStandardUnit();
         if (systemUnit instanceof BaseUnit)
             return Dimension.getModel().getDimension((BaseUnit<?>) systemUnit);
@@ -202,6 +227,18 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
     }
 
     /**
+     * The cache will be cleared when this limit is reached, and it will be refilled quickly if necessary.
+     * The intent is to have a fast (and small) cache that speed up the client application.
+     */
+    private static final int CONVERTER_CACHE_SIZE_LIMIT = 100;
+    /**
+     * Cache of unit converters.
+     */
+    private static final ConcurrentHashMap<Unit<?>, ConcurrentHashMap<Unit<?>, UnitConverter>>
+            CONVERTER_CACHE = new ConcurrentHashMap<>(CONVERTER_CACHE_SIZE_LIMIT);
+
+
+    /**
      * Returns a converter of numeric values from this unit to another unit.
      *
      * @param  that the unit to which to convert the numeric values.
@@ -210,6 +247,34 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
      *         (e.g. <code>!this.isCompatible(that)</code>).
      */
     public final UnitConverter getConverterTo(Unit<?> that)
+            throws ConversionException {
+
+        // Cache the converters for ProductUnit because they are expensive to calculate.
+        // For the other units this computation is very fast and adding all of them in the cache reduces the overall
+        // performance (experimentally tested with Scalar benchmark and complex signals)
+        if(this instanceof ProductUnit || that instanceof ProductUnit) {
+            ConcurrentHashMap<Unit<?>, UnitConverter> unitConverters = CONVERTER_CACHE.get(this);
+            if (unitConverters == null) {
+                if (CONVERTER_CACHE.size() > CONVERTER_CACHE_SIZE_LIMIT) {
+                    CONVERTER_CACHE.clear();
+                }
+                unitConverters = new ConcurrentHashMap<>();
+                CONVERTER_CACHE.put(this, unitConverters);
+            }
+
+            UnitConverter unitConverter = unitConverters.get(that);
+            if (unitConverter == null) {
+                unitConverter = this.computeConverterTo(that);
+                unitConverters.put(that, unitConverter);
+            }
+
+            return unitConverter;
+        } else {
+            return computeConverterTo(that);
+        }
+    }
+
+    private UnitConverter computeConverterTo(Unit<?> that)
             throws ConversionException {
         if (this.equals(that))
             return UnitConverter.IDENTITY;
@@ -232,6 +297,14 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
     }
 
     private Unit<?> getBaseUnits() {
+        if(_baseUnits == null) {
+            _baseUnits = computeBaseUnits();
+        }
+
+        return _baseUnits;
+    }
+
+    private Unit<?> computeBaseUnits() {
         Unit<?> systemUnit = this.getStandardUnit();
         if (systemUnit instanceof BaseUnit) return systemUnit;
         if (systemUnit instanceof AlternateUnit) 

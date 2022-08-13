@@ -42,6 +42,17 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
      */
     private int _hashCode;
 
+
+    /**
+     * Holds the standard unit of this unit.
+     */
+    private Unit<? super Q> _standardUnit;
+
+    /**
+     * Holds the standard unit converter of this unit.
+     */
+    private UnitConverter _standardUnitConverter;
+
     /**
      * Default constructor (used solely to create <code>ONE</code> instance).
      */
@@ -333,8 +344,16 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Unit<? super Q> getStandardUnit() {
+        if(_standardUnit == null) {
+            _standardUnit = computeStandardUnit();
+        }
+
+        return _standardUnit;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Unit<? super Q> computeStandardUnit() {
         if (hasOnlyStandardUnit())
             return this;
         Unit systemUnit = ONE;
@@ -349,6 +368,14 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
 
     @Override
     public UnitConverter toStandardUnit() {
+        if (_standardUnitConverter == null) {
+            _standardUnitConverter = computeStandardUnitConverter();
+        }
+
+        return _standardUnitConverter;
+    }
+
+    private UnitConverter computeStandardUnitConverter() {
         if (hasOnlyStandardUnit())
             return UnitConverter.IDENTITY;
         UnitConverter converter = UnitConverter.IDENTITY;
