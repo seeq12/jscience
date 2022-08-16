@@ -2,22 +2,26 @@
  * JScience - Java(TM) Tools and Libraries for the Advancement of Sciences.
  * Copyright (C) 2006 - JScience (http://jscience.org/)
  * All rights reserved.
- * 
+ *
  * Permission to use, copy, modify, and distribute this software is
  * freely granted, provided that this notice is preserved.
  */
 package javax.measure.unit;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.measure.converter.ConversionException;
 import javax.measure.converter.UnitConverter;
 import javax.measure.quantity.Quantity;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+
 /**
  * <p> This class represents units formed by the product of rational powers of
  *     existing units.</p>
- *     
+ *
  * <p> This class maintains the canonical form of this product (simplest
  *     form after factorization). For example:
  *     <code>METER.pow(2).divide(METER)</code> returns
@@ -64,11 +68,11 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
      * Copy constructor (allows for parameterization of product units).
      *
      * @param productUnit the product unit source.
-     * @throws ClassCastException if the specified unit is not 
+     * @throws ClassCastException if the specified unit is not
      *         a product unit.
      */
     public ProductUnit(Unit<?> productUnit) {
-        _elements = ((ProductUnit<?>)productUnit)._elements;        
+        _elements = ((ProductUnit<?>)productUnit)._elements;
     }
 
     /**
@@ -80,6 +84,12 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
         _elements = elements;
     }
 
+    private static final LoadingCache<ProductUnitKey, Unit<? extends Quantity>> INSTANCE_CACHE =
+            Caffeine.newBuilder()
+                    .maximumSize(4096)
+                    .build(key -> doGetInstance(key._leftElems, key._rightElems));
+
+
     /**
      * Returns the unit defined from the product of the specifed elements.
      *
@@ -87,10 +97,12 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
      * @param  rightElems right multiplicand elements.
      * @return the corresponding unit.
      */
-    @SuppressWarnings("unchecked")
-    private static Unit<? extends Quantity> getInstance(Element[] leftElems,
-            Element[] rightElems) {
+    private static Unit<? extends Quantity> getInstance(Element[] leftElems, Element[] rightElems) {
+        return INSTANCE_CACHE.get(new ProductUnitKey(leftElems, rightElems));
+    }
 
+    @SuppressWarnings("unchecked")
+    private static Unit<? extends Quantity> doGetInstance(Element[] leftElems, Element[] rightElems) {
         // Merges left elements with right elements.
         Element[] result = new Element[leftElems.length + rightElems.length];
         int resultIndex = 0;
@@ -291,12 +303,12 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
     }
 
     /**
-     * Indicates if this product unit is considered equals to the specified 
+     * Indicates if this product unit is considered equals to the specified
      * object.
      *
      * @param  that the object to compare for equality.
      * @return <code>true</code> if <code>this</code> and <code>that</code>
-     *         are considered equals; <code>false</code>otherwise. 
+     *         are considered equals; <code>false</code>otherwise.
      */
     public boolean equals(Object that) {
         if (this == that)
@@ -432,7 +444,7 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
     /**
      * Inner product element represents a rational power of a single unit.
      */
-    private final static class Element implements Serializable {
+    private static final class Element implements Serializable {
 
         /**
          * Holds the single unit.
@@ -448,6 +460,7 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
          * Holds the root exponent.
          */
         private final int _root;
+        private int _hashCode;
 
         /**
          * Structural constructor.
@@ -492,6 +505,54 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
         }
 
         private static final long serialVersionUID = 1L;
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Element) {
+                Element other = (Element) obj;
+                return _hashCode == other._hashCode
+                        && _unit.equals(other._unit)
+                        && _pow == other._pow
+                        && _root == other._root;
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            if (_hashCode == 0) {
+                _hashCode = 31 * (31 * _unit.hashCode() + Integer.hashCode(_pow)) + Integer.hashCode(_root);
+            }
+            return _hashCode;
+        }
+    }
+
+    private static final class ProductUnitKey {
+        private final Element[] _leftElems;
+        private final Element[] _rightElems;
+        private final int _hashCode;
+
+        private ProductUnitKey(Element[] leftElems, Element[] rightElems) {
+            this._leftElems = leftElems;
+            this._rightElems = rightElems;
+            this._hashCode = 31 * Arrays.hashCode(leftElems) + Arrays.hashCode(rightElems);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof ProductUnitKey) {
+                ProductUnitKey other = (ProductUnitKey) obj;
+                return _hashCode == other._hashCode
+                        && Arrays.equals(_leftElems, other._leftElems)
+                        && Arrays.equals(_rightElems, other._rightElems);
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return _hashCode;
+        }
     }
 
     private static final long serialVersionUID = 1L;
