@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 import javax.measure.MeasureFormat;
 import javax.measure.converter.AddConverter;
@@ -63,6 +65,23 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
      * Holds the unique symbols collection (base unit or alternate units).
      */
     static final HashMap<String, Unit<?>> SYMBOL_TO_UNIT = new HashMap<String, Unit<?>>();
+
+    protected static final ThreadLocal<Map<Object, Unit<? extends Quantity>>> CACHE = new ThreadLocal<>();
+
+    public static <T> T withUnitCache(Map<Object, Unit<?>> cache, Supplier<T> s) {
+        Map<Object, Unit<? extends Quantity>> previous = CACHE.get();
+        try {
+            CACHE.set(cache);
+            return s.get();
+        } finally {
+            if (previous == null) {
+                CACHE.remove();
+            } else {
+                previous.putAll(cache);
+                CACHE.set(previous);
+            }
+        }
+    }
 
     /**
      * Holds the dimension of this unit

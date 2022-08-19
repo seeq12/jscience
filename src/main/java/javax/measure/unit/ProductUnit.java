@@ -10,6 +10,8 @@ package javax.measure.unit;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.measure.converter.ConversionException;
 import javax.measure.converter.UnitConverter;
@@ -84,37 +86,6 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
         _elements = elements;
     }
 
-    private static final LoadingCache<ProductUnitKey, Unit<? extends Quantity>> INSTANCE_CACHE =
-            Caffeine.newBuilder()
-                    .maximumSize(4096)
-                    .build(key -> doGetInstance(key.leftElems, key.rightElems));
-
-    private static final class ProductUnitKey {
-        private final Element[] leftElems;
-        private final Element[] rightElems;
-        private final int hashCode;
-
-        private ProductUnitKey(Element[] leftElems, Element[] rightElems) {
-            this.leftElems = leftElems;
-            this.rightElems = rightElems;
-            this.hashCode = Arrays.hashCode(leftElems) ^ Arrays.hashCode(rightElems);
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof ProductUnitKey) {
-                ProductUnitKey other = (ProductUnitKey) obj;
-                return Arrays.equals(this.leftElems, other.leftElems)
-                        && Arrays.equals(this.rightElems, other.rightElems);
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return hashCode;
-        }
-    }
     /**
      * Returns the unit defined from the product of the specifed elements.
      *
@@ -123,7 +94,11 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
      * @return the corresponding unit.
      */
     private static Unit<? extends Quantity> getInstance(Element[] leftElems, Element[] rightElems) {
-        return INSTANCE_CACHE.get(new ProductUnitKey(leftElems, rightElems));
+        Map<Object, Unit<? extends Quantity>> cache = CACHE.get();
+        if (cache == null) {
+            return doGetInstance(leftElems, rightElems);
+        }
+        return cache.computeIfAbsent(new ProductUnitKey(leftElems, rightElems), key -> doGetInstance(leftElems, rightElems));
     }
 
     @SuppressWarnings("unchecked")
@@ -545,6 +520,33 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
         @Override
         public int hashCode() {
             return this.hashCode;
+        }
+    }
+
+    private static final class ProductUnitKey {
+        private final Element[] leftElems;
+        private final Element[] rightElems;
+        private final int hashCode;
+
+        private ProductUnitKey(Element[] leftElems, Element[] rightElems) {
+            this.leftElems = leftElems;
+            this.rightElems = rightElems;
+            this.hashCode = Arrays.hashCode(leftElems) ^ Arrays.hashCode(rightElems);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof ProductUnitKey) {
+                ProductUnitKey other = (ProductUnitKey) obj;
+                return Arrays.equals(this.leftElems, other.leftElems)
+                        && Arrays.equals(this.rightElems, other.rightElems);
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return hashCode;
         }
     }
 
