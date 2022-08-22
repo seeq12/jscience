@@ -65,6 +65,16 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
     static final HashMap<String, Unit<?>> SYMBOL_TO_UNIT = new HashMap<String, Unit<?>>();
 
     /**
+     * Holds the dimension of this unit
+     */
+    private Dimension _dimension;
+
+    /**
+     * Holds the baseUnits of this unit
+     */
+    private Unit<?> _baseUnits;
+
+    /**
      * Default constructor.
      */
     protected Unit() {
@@ -184,6 +194,20 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
      * @return the dimension of this unit for the current model.
      */
     public final Dimension getDimension() {
+        if(_dimension == null) {
+            _dimension = computeDimension();
+        }
+
+        return _dimension;
+    }
+
+    /**
+     * Computes the dimension of this unit (depends upon the current
+     * dimensional {@link Dimension.Model model}).
+     *
+     * @return the dimension of this unit for the current model.
+     */
+    private Dimension computeDimension() {
         Unit<?> systemUnit = this.getStandardUnit();
         if (systemUnit instanceof BaseUnit)
             return Dimension.getModel().getDimension((BaseUnit<?>) systemUnit);
@@ -201,6 +225,7 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
         return dimension;
     }
 
+
     /**
      * Returns a converter of numeric values from this unit to another unit.
      *
@@ -209,8 +234,7 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
      * @throws ConversionException if the conveter cannot be constructed
      *         (e.g. <code>!this.isCompatible(that)</code>).
      */
-    public final UnitConverter getConverterTo(Unit<?> that)
-            throws ConversionException {
+    public final UnitConverter getConverterTo(Unit<?> that) throws ConversionException {
         if (this.equals(that))
             return UnitConverter.IDENTITY;
         Unit<?> thisSystemUnit = this.getStandardUnit();
@@ -232,6 +256,14 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
     }
 
     private Unit<?> getBaseUnits() {
+        if(_baseUnits == null) {
+            _baseUnits = computeBaseUnits();
+        }
+
+        return _baseUnits;
+    }
+
+    private Unit<?> computeBaseUnits() {
         Unit<?> systemUnit = this.getStandardUnit();
         if (systemUnit instanceof BaseUnit) return systemUnit;
         if (systemUnit instanceof AlternateUnit) 
