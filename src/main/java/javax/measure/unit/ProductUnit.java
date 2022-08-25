@@ -188,6 +188,9 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
      */
     static Unit<? extends Quantity> getQuotientInstance(Unit<?> left, Unit<?> right) {
         Element[] leftElems;
+        if (left == right) {
+            return Unit.ONE;
+        }
         if (left instanceof ProductUnit) {
             leftElems = ((ProductUnit<?>) left)._elements;
         } else {
