@@ -188,9 +188,6 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
      */
     static Unit<? extends Quantity> getQuotientInstance(Unit<?> left, Unit<?> right) {
         Element[] leftElems;
-        if (left == right) {
-            return Unit.ONE;
-        }
         if (left instanceof ProductUnit) {
             leftElems = ((ProductUnit<?>) left)._elements;
         } else {
@@ -317,9 +314,13 @@ public final class ProductUnit<Q extends Quantity> extends DerivedUnit<Q> {
         if (this == that)
             return true;
         if (that instanceof ProductUnit) {
+            ProductUnit<?> thatUnit = (ProductUnit<?>) that;
+            if (this._hashCode != 0 && thatUnit._hashCode != 0 && this._hashCode != thatUnit._hashCode) {
+                return false;
+            }
             // Two products are equals if they have the same elements
             // regardless of the elements' order.
-            Element[] elems = ((ProductUnit<?>) that)._elements;
+            Element[] elems = thatUnit._elements;
             if (_elements.length == elems.length) {
                 for (int i = 0; i < _elements.length; i++) {
                     boolean unitFound = false;
