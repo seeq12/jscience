@@ -50,6 +50,11 @@ public final class TransformedUnit<Q extends Quantity> extends DerivedUnit<Q> {
     private final UnitConverter _toParentUnit;
 
     /**
+     * The cached hash code
+     */
+    private final int _hashCode;
+
+    /**
      * Holds the standard unit of this unit.
      */
     private Unit<? super Q> _standardUnit;
@@ -73,6 +78,7 @@ public final class TransformedUnit<Q extends Quantity> extends DerivedUnit<Q> {
             throw new IllegalArgumentException("Identity not allowed");
         _parentUnit = parentUnit;
         _toParentUnit = toParentUnit;
+        _hashCode = 31 * parentUnit.hashCode() + toParentUnit.hashCode();
     }
         
     /**
@@ -107,13 +113,14 @@ public final class TransformedUnit<Q extends Quantity> extends DerivedUnit<Q> {
         if (this == that) return true;
         if (!(that instanceof TransformedUnit)) return false;
         TransformedUnit<?> thatUnit = (TransformedUnit<?>) that; 
-        return this._parentUnit.equals(thatUnit._parentUnit) &&
+        return this._hashCode == thatUnit._hashCode &&
+                this._parentUnit.equals(thatUnit._parentUnit) &&
                  this._toParentUnit.equals(thatUnit._toParentUnit);
     }
 
     // Implements abstract method.
     public int hashCode() {
-        return 31 * _parentUnit.hashCode() + _toParentUnit.hashCode();
+        return _hashCode;
     }
 
     // Implements abstract method.

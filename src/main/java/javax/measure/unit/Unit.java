@@ -75,6 +75,11 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
     private Unit<?> _baseUnits;
 
     /**
+     * The cached inverse of this unit.
+     */
+    private Unit<?> _inverse;
+
+    /**
      * Default constructor.
      */
     protected Unit() {
@@ -421,7 +426,10 @@ public abstract class Unit<Q extends Quantity> implements Serializable {
      * @return <code>1 / this</code>
      */
     public final Unit<? extends Quantity> inverse() {
-        return ProductUnit.getQuotientInstance(ONE, this);
+        if (_inverse == null) {
+            _inverse = ProductUnit.getQuotientInstance(ONE, this);
+        }
+        return _inverse;
     }
 
     /**

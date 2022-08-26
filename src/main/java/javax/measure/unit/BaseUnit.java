@@ -45,6 +45,11 @@ public class BaseUnit<Q extends Quantity> extends Unit<Q> {
     private final String _symbol;
 
     /**
+     * The cached hashCode
+     */
+    private final int _hashCode;
+
+    /**
      * Creates a base unit having the specified symbol. 
      *
      * @param symbol the symbol of this base unit.
@@ -53,6 +58,7 @@ public class BaseUnit<Q extends Quantity> extends Unit<Q> {
      */
     public BaseUnit(String symbol) {
         _symbol = symbol;
+        _hashCode = symbol.hashCode();
         // Checks if the symbol is associated to a different unit.
         synchronized (Unit.SYMBOL_TO_UNIT) {
             Unit<?> unit = Unit.SYMBOL_TO_UNIT.get(symbol);
@@ -90,12 +96,12 @@ public class BaseUnit<Q extends Quantity> extends Unit<Q> {
         if (!(that instanceof BaseUnit))
             return false;
         BaseUnit<?> thatUnit = (BaseUnit<?>) that;
-        return this._symbol.equals(thatUnit._symbol); 
+        return this._hashCode == thatUnit._hashCode && this._symbol.equals(thatUnit._symbol);
     }
         
     @Override
     public int hashCode() {
-        return _symbol.hashCode();
+        return _hashCode;
     }
 
     @Override
