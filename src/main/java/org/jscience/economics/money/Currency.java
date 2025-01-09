@@ -11,15 +11,15 @@ package org.jscience.economics.money;
 import javolution.context.LocalContext;
 import javolution.util.LocalMap;
 
-import javax.measure.converter.ConversionException;
-import javax.measure.converter.UnitConverter;
-import javax.measure.unit.BaseUnit;
-import javax.measure.unit.DerivedUnit;
-import javax.measure.unit.Unit;
-import javax.measure.unit.UnitFormat;
+import com.seeq.jscience.measure.converter.ConversionException;
+import com.seeq.jscience.measure.converter.UnitConverter;
+import com.seeq.jscience.measure.unit.BaseUnit;
+import com.seeq.jscience.measure.unit.DerivedUnit;
+import com.seeq.jscience.measure.unit.Unit;
+import com.seeq.jscience.measure.unit.UnitFormat;
 
 /**
- * <p> This class represents a currency {@link javax.measure.unit.Unit Unit}.
+ * <p> This class represents a currency {@link com.seeq.jscience.measure.unit.Unit Unit}.
  *     Currencies are a special form of {@link DerivedUnit}, conversions
  *     between currencies is possible if their respective exchange rates 
  *     have been set and the conversion factor can be changed dynamically.</p>
@@ -30,7 +30,7 @@ import javax.measure.unit.UnitFormat;
  * <p> By default, the label associated to a currency is its ISO-4217 code
  *     (see the <a href="http://www.bsi-global.com/iso4217currency"> ISO 4217
  *     maintenance agency</a> for a table of currency codes). An application may
- *     change this default using the {@link javax.measure.unit.UnitFormat#label
+ *     change this default using the {@link com.seeq.jscience.measure.unit.UnitFormat#label
  *     UnitFormat.label(String)} method.
  *     For example:[code]
  *     UnitFormat.getStandardInstance().label(Currency.EUR, "€");

@@ -13,19 +13,18 @@ import java.io.Serializable;
 import javolution.context.ObjectFactory;
 import javolution.lang.Immutable;
 import javolution.lang.MathLib;
-import javolution.text.Text;
 import javolution.util.FastComparator;
 import javolution.util.FastMap;
 import javolution.xml.XMLFormat;
 import javolution.xml.stream.XMLStreamException;
 
-import javax.measure.converter.ConversionException;
-import javax.measure.converter.RationalConverter;
-import javax.measure.converter.UnitConverter;
-import javax.measure.quantity.Dimensionless;
-import javax.measure.quantity.Quantity;
-import javax.measure.unit.Unit;
-import javax.measure.Measurable;
+import com.seeq.jscience.measure.converter.ConversionException;
+import com.seeq.jscience.measure.converter.RationalConverter;
+import com.seeq.jscience.measure.converter.UnitConverter;
+import com.seeq.jscience.measure.quantity.Dimensionless;
+import com.seeq.jscience.measure.quantity.Quantity;
+import com.seeq.jscience.measure.unit.Unit;
+import com.seeq.jscience.measure.Measurable;
 import javax.realtime.MemoryArea;
 
 /**

@@ -8,9 +8,9 @@
  */
 package org.jscience.physics.model;
 
-import javax.measure.converter.UnitConverter;
-import javax.measure.unit.BaseUnit;
-import javax.measure.unit.Dimension;
+import com.seeq.jscience.measure.converter.UnitConverter;
+import com.seeq.jscience.measure.unit.BaseUnit;
+import com.seeq.jscience.measure.unit.Dimension;
 
 /**
  * This class represents the standard model. 
