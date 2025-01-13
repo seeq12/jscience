@@ -8,11 +8,11 @@
  */
 package org.jscience.physics.model;
 
-import javax.measure.converter.RationalConverter;
-import javax.measure.converter.UnitConverter;
-import javax.measure.unit.BaseUnit;
-import javax.measure.unit.Dimension;
-import javax.measure.unit.SI;
+import com.seeq.jscience.measure.converter.RationalConverter;
+import com.seeq.jscience.measure.converter.UnitConverter;
+import com.seeq.jscience.measure.unit.BaseUnit;
+import com.seeq.jscience.measure.unit.Dimension;
+import com.seeq.jscience.measure.unit.SI;
 
 /**
  * This class represents the relativistic model.

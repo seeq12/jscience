@@ -8,9 +8,9 @@
  */
 package org.jscience.physics.model;
 
-import javax.measure.converter.UnitConverter;
-import javax.measure.unit.BaseUnit;
-import javax.measure.unit.Dimension;
+import com.seeq.jscience.measure.converter.UnitConverter;
+import com.seeq.jscience.measure.unit.BaseUnit;
+import com.seeq.jscience.measure.unit.Dimension;
 
 import javolution.context.LocalContext;
 
@@ -27,7 +27,7 @@ import javolution.context.LocalContext;
  *     [/code]</p>
  *     
  * <p> Selecting a predefined model automatically sets the dimension of 
- *     the {@link javax.measure.unit.BaseUnit base units}.</p>
+ *     the {@link com.seeq.jscience.measure.unit.BaseUnit base units}.</p>
  *
  * @author  <a href="mailto:jean-marie@dautelle.com">Jean-Marie Dautelle</a>
  * @version 3.1, April 22, 2006
